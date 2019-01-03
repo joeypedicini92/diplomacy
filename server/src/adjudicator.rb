@@ -18,7 +18,7 @@ class Adjudicator
 
   def backup_rule(nr_of_dep)
     @dep_list[--nr_of_dep].state = @RESOLVED
-    @dep_list[--nr_of_dep].resolution = @SUCCESS
+    @dep_list[--nr_of_dep].resolution = @SUCCEEDS
   end
 
   def adjudicate(order)
@@ -55,7 +55,10 @@ class Adjudicator
     order.setPreventStrength(calculatePreventStrength(order))
 
     h2hOrder = @orders.find {|o| o.moveTerritory === order.territory}
-    competeOrders = @orders.select {|o| o.moveTerritory === order.moveTerritory}
+    competeOrders = @orders.select do |o| 
+      o.moveTerritory === order.moveTerritory \
+      && o.territory != order.territory
+    end
     moveTerritory = getTerritoryById(order.moveTerritory)
 
     if(order.type === 'M') then
@@ -78,7 +81,7 @@ class Adjudicator
           order.setResolution @FAILS
         end
       end
-    elsif(order.type === 'H') then
+    elsif(order.type != 'M') then
       if(beatsAttacks(moveTerritory, competeOrders)) then
         order.setState @RESOLVED
         order.setResolution @SUCCEEDS
@@ -145,7 +148,7 @@ class Adjudicator
     remainingConvoys = convoys - startConvoys
     valid = false
     startConvoys.each do |c|
-      if(c.resolution === @SUCCESS) then
+      if(c.resolution == @SUCCEEDS) then
         c.setVisited()
       else
         return false

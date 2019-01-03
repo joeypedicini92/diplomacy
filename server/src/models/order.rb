@@ -90,5 +90,15 @@ class Order
     @preventStrength = s || 0
   end
 
+  def visited
+    @visited
+  end
 
+  def setVisited()
+    @visited = true
+  end
+
+  def removeVisited()
+    @visited = false
+  end
 end
