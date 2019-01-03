@@ -23,13 +23,50 @@ class Adjudicator
 
   def adjudicate(order)
     t = getTerritoryById(order.territory)
+    t2 = getTerritoryById(order.moveTerritory)
+    h2hOrder = @orders.find {|o| o.moveTerritory === order.territory}
+    moveTerritory = getTerritoryById(order.moveTerritory)
+    competeOrders = @orders.select do |o| 
+      o.moveTerritory === order.moveTerritory \
+      && o.territory != order.territory
+    end
+
     if(order.type === 'H') then
       t.setHoldStrength(calculateMoveStrength(order))
+      order.setDefendStrength(calculateDefendStrength(order))
+      order.setPreventStrength(calculatePreventStrength(order))
+      if(beatsAttacks(moveTerritory, competeOrders)) then
+        order.setState @RESOLVED
+        order.setResolution @SUCCEEDS
+      else
+        order.setState @RESOLVED
+        order.setResolution @FAILS
+      end
     end
     if(order.type === 'M') then
-      t2 = getTerritoryById(order.moveTerritory)
       if(isValidMove(order, t, t2)) then
         buildPath(order, t, t2)
+        order.setDefendStrength(calculateDefendStrength(order))
+        order.setPreventStrength(calculatePreventStrength(order))
+        if(h2hOrder) then
+          #     In case of a head-to-head battle, the move succeeds when the attack strength is larger then the defend strength of the opposing unit and larger than the prevent strength of any unit moving to the same area. If one of the opposing strengths is equal or greater, then the move fails.
+          if(order.attackStrength > h2hOrder.defendStrength && beatsPrevents(order, competeOrders)) then
+            order.setState @RESOLVED
+            order.setResolution @SUCCEEDS
+          else
+            order.setState @RESOLVED
+            order.setResolution @FAILS
+          end
+        else
+          # If there is no head-to-head battle, the move succeeds when the attack strength is larger then the hold strength of the destination and larger than the prevent strength of any unit moving to the same area. If one of the opposing strengths is equal or greater, then the move fails.
+          if(order.attackStrength > moveTerritory.holdStrength && beatsPrevents(order, competeOrders)) then
+            order.setState @RESOLVED
+            order.setResolution @SUCCEEDS
+          else
+            order.setState @RESOLVED
+            order.setResolution @FAILS
+          end
+        end
       else
         order.setState(@RESOLVED)
         order.setResolution(@FAILS)
@@ -39,41 +76,27 @@ class Adjudicator
       orderForConvoyTerritory = @orders.find {|o| o.territory === order.supportTerritory}
       if(isValidConvoy(order, orderForConvoyTerritory)) then
         t.setHoldStrength(calculateMoveStrength(order))
+        order.setDefendStrength(calculateDefendStrength(order))
+        order.setPreventStrength(calculatePreventStrength(order))
+        if(beatsAttacks(moveTerritory, competeOrders)) then
+          order.setState @RESOLVED
+          order.setResolution @SUCCEEDS
+        else
+          order.setState @RESOLVED
+          order.setResolution @FAILS
+        end
       else
         order.setState @RESOLVED
-        order.setResolution = @FAILS
+        order.setResolution @FAILS
       end
     end
     if(order.type === 'S') then
       orderForSupportTerritory = @orders.find {|o| o.territory === order.supportTerritory}
       if(isValidSupport(order, orderForSupportTerritory)) then
         t.setHoldStrength(calculateMoveStrength(order))
-      end
-    end
-    # at this point all the hold and attack strengths should be calculated. Now we need to calculate defend and prevent strengths
-    order.setDefendStrength(calculateDefendStrength(order))
-    order.setPreventStrength(calculatePreventStrength(order))
-
-    h2hOrder = @orders.find {|o| o.moveTerritory === order.territory}
-    competeOrders = @orders.select do |o| 
-      o.moveTerritory === order.moveTerritory \
-      && o.territory != order.territory
-    end
-    moveTerritory = getTerritoryById(order.moveTerritory)
-
-    if(order.type === 'M') then
-      if(h2hOrder) then
-        #     In case of a head-to-head battle, the move succeeds when the attack strength is larger then the defend strength of the opposing unit and larger than the prevent strength of any unit moving to the same area. If one of the opposing strengths is equal or greater, then the move fails.
-        if(order.attackStrength > h2hOrder.defendStrength && beatsPrevents(order, competeOrders)) then
-          order.setState @RESOLVED
-          order.setResolution @SUCCEEDS
-        else
-          order.setState @RESOLVED
-          order.setResolution @FAILS
-        end
-      else
-        # If there is no head-to-head battle, the move succeeds when the attack strength is larger then the hold strength of the destination and larger than the prevent strength of any unit moving to the same area. If one of the opposing strengths is equal or greater, then the move fails.
-        if(order.attackStrength > moveTerritory.holdStrength && beatsPrevents(order, competeOrders)) then
+        order.setDefendStrength(calculateDefendStrength(order))
+        order.setPreventStrength(calculatePreventStrength(order))
+        if(beatsAttacks(moveTerritory, competeOrders)) then
           order.setState @RESOLVED
           order.setResolution @SUCCEEDS
         else
@@ -81,15 +104,8 @@ class Adjudicator
           order.setResolution @FAILS
         end
       end
-    elsif(order.type != 'M') then
-      if(beatsAttacks(moveTerritory, competeOrders)) then
-        order.setState @RESOLVED
-        order.setResolution @SUCCEEDS
-      else
-        order.setState @RESOLVED
-        order.setResolution @FAILS
-      end
     end
+    return order.resolution
   end
 
   def beatsAttacks(territory, competeOrders)
@@ -136,8 +152,9 @@ class Adjudicator
   end
 
   def isValidConvoy(o, order)
-    return o.type == 'C' \
+    return order && o.type == 'C' \
     && o.unit == 'F' \
+    && o.supportUnit == 'A' \
     && o.supportTerritory == order.territory \
     && o.supportToTerritory == order.moveTerritory \
     && getTerritoryById(o.territory).type == 'w'
@@ -221,7 +238,7 @@ class Adjudicator
     strength = 1
     @orders.each do |o|
       if(isValidSupport(o, order)) then
-        orderBeingAttacked = @orders.find {|o| o.territory == receivingOrder.moveTerritory}
+        orderBeingAttacked = @orders.find {|o| o.territory == order.moveTerritory}
         if(orderBeingAttacked && orderBeingAttacked.country == o.country) then
           # do nothing
         elsif(resolve(o)) then
@@ -235,13 +252,18 @@ class Adjudicator
   def isValidSupport(o, receivingOrder)
     t = getTerritoryById(o.territory)
     return o.type == 'S' \
-    && t.neighbors.include?(o.supportTerritory)  \
     && t.neighbors.include?(o.supportToTerritory)  \
     && isValidMoveForUnit(o.unit, o.supportToTerritory) \
     && o.supportUnit == receivingOrder.unit \
     && o.supportTerritory == receivingOrder.territory \
     && o.supportToTerritory == receivingOrder.moveTerritory
   end
+
+  def isValidMoveForUnit(unit, territory)
+    t = getTerritoryById(territory)
+    return unit == 'A' && ['l','c'].include?(t.type) \
+    || unit == 'F' && ['w','c'].include?(t.type)
+  end 
 
   def isValidMove(o, fromTerritory, toTerritory)
     return (
