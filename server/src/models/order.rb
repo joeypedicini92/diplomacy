@@ -9,6 +9,9 @@ class Order
     @supportOrder = supportOrder
     @supportTerritory = supportTerritory
     @supportToTerritory = supportToTerritory
+    @attackStrength = 0
+    @defendStrength = 0
+    @preventStrength = 0
   end
 
   def unit

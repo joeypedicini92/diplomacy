@@ -206,6 +206,17 @@ class TestAdjudicator < Test::Unit::TestCase
     assert_equal('succeeds', orders[1].resolution )
   end
 
+  def test_army_support_water_fails
+    orders = [
+      Order.new("Russia", "F", "BAL", "H", "BAL", "", "", "", ""),
+      Order.new("Russia", "A", "BER", "S", "BER", "F", "H", "BAL", "BAL")
+    ]
+    Adjudicator.new(@game.territories, orders)
+
+    assert_equal('succeeds', orders[0].resolution )
+    assert_equal('fails', orders[1].resolution )
+  end
+
   def test_support_convoy_simple_succeeds
     orders = [
       Order.new("Russia", "F", "BAL", "C", "BAL", "A", "M", "PRU", "SWE"),
@@ -230,6 +241,39 @@ class TestAdjudicator < Test::Unit::TestCase
     assert_equal('succeeds', orders[0].resolution )
     assert_equal('succeeds', orders[1].resolution )
     assert_equal('succeeds', orders[2].resolution )
+  end
+
+  def test_support_failed_convoy_succeeds
+    orders = [
+      Order.new("Russia", "F", "BAL", "C", "BAL", "A", "M", "PRU", "SWE"),
+      Order.new("Russia", "F", "GOB", "S", "GOB", "F", "H", "BAL", "BAL")
+    ]
+    Adjudicator.new(@game.territories, orders)
+
+    assert_equal('fails', orders[0].resolution )
+    assert_equal('succeeds', orders[1].resolution )
+  end
+
+  def test_support_failed_convoy_move_succeeds
+    orders = [
+      Order.new("Russia", "F", "GOB", "S", "GOB", "A", "M", "PRU", "SWE"),
+      Order.new("Russia", "A", "PRU", "M", "SWE", "", "", "", "")
+    ]
+    Adjudicator.new(@game.territories, orders)
+
+    assert_equal('succeeds', orders[0].resolution )
+    assert_equal('fails', orders[1].resolution )
+  end
+
+  def test_head_to_head_even_both_fail
+    orders = [
+      Order.new("Russia", "A", "BER", "M", "PRU", "", "", "", ""),
+      Order.new("Russia", "A", "PRU", "M", "BER", "", "", "", "")
+    ]
+    Adjudicator.new(@game.territories, orders)
+
+    assert_equal('fails', orders[0].resolution )
+    assert_equal('fails', orders[1].resolution )
   end
  
 end

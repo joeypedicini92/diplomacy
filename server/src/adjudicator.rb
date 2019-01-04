@@ -50,6 +50,9 @@ class Adjudicator
         order.setPreventStrength(calculatePreventStrength(order))
         if(h2hOrder) then
           #     In case of a head-to-head battle, the move succeeds when the attack strength is larger then the defend strength of the opposing unit and larger than the prevent strength of any unit moving to the same area. If one of the opposing strengths is equal or greater, then the move fails.
+          h2hOrder.setDefendStrength(calculateDefendStrength(h2hOrder))
+          h2hOrder.setPreventStrength(calculatePreventStrength(h2hOrder))
+
           if(order.attackStrength > h2hOrder.defendStrength && beatsPrevents(order, competeOrders)) then
             order.setState @RESOLVED
             order.setResolution @SUCCEEDS
