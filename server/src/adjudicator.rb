@@ -311,15 +311,15 @@ class Adjudicator
     while(@nr_of_dep > old_nr_of_dep)
       @dep_list[--@nr_of_dep].state = @UNRESOLVED
     end
-    order.resolution = @SUCCEEDS
-    order.state = @GUESSING
-    second_result = adjudicate(nr)
+    order.setResolution @SUCCEEDS
+    order.setState @GUESSING
+    second_result = adjudicate(order)
     if(first_result == second_result) then
       while(@nr_of_dep > old_nr_of_dep)
         @dep_list[--@nr_of_dep].state = @UNRESOLVED
       end
-      order.resolution = first_result
-      order.state = @RESOLVED
+      order.setResolution first_result
+      order.setState @RESOLVED
       return first_result
     end
 

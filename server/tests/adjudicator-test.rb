@@ -275,5 +275,32 @@ class TestAdjudicator < Test::Unit::TestCase
     assert_equal('fails', orders[0].resolution )
     assert_equal('fails', orders[1].resolution )
   end
+
+  def test_unit_move_same_territory_fails
+    orders = [
+      Order.new("Russia", "A", "BER", "M", "BER", "", "", "", ""),
+    ]
+    Adjudicator.new(@game.territories, orders)
+
+    assert_equal('fails', orders[0].resolution )
+  end
+
+  def test_unit_move_same_territory_with_convoy_fails
+    orders = [
+      Order.new("England", "F", "NTH", "C", "NTH", "A", "M", "YOR", "YOR"),
+      Order.new("England", "A", "YOR", "M", "YOR", "", "", "", ""),
+      Order.new("England", "A", "LPL", "S", "LPL", "A", "M", "YOR", "YOR"),
+      Order.new("Germany", "F", "LON", "M", "YOR", "", "", "", ""),
+      Order.new("Germany", "A", "WAL", "S", "WAL", "F", "M", "LON", "YOR"),
+    ]
+    Adjudicator.new(@game.territories, orders)
+
+    assert_equal('succeeds', orders[0].resolution )
+    assert_equal('fails', orders[1].resolution )
+    assert_equal('fails', orders[2].resolution )
+    assert_equal('succeeds', orders[3].resolution )
+    assert_equal('succeeds', orders[4].resolution )
+  end
+# The move of the army in Yorkshire is illegal. This makes the support of Liverpool also illegal and without the support, the Germans have a stronger force. The army in London dislodges the army in Yorkshire.
  
 end
