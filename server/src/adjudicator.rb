@@ -32,12 +32,17 @@ class Adjudicator
     end
 
     if(order.type === 'H') then
-      t.setHoldStrength(calculateMoveStrength(order))
-      order.setDefendStrength(calculateDefendStrength(order))
-      order.setPreventStrength(calculatePreventStrength(order))
-      if(beatsAttacks(moveTerritory, competeOrders)) then
-        order.setState @RESOLVED
-        order.setResolution @SUCCEEDS
+      if(isValidMove(order)) then
+        t.setHoldStrength(calculateMoveStrength(order))
+        order.setDefendStrength(calculateDefendStrength(order))
+        order.setPreventStrength(calculatePreventStrength(order))
+        if(beatsAttacks(moveTerritory, competeOrders)) then
+          order.setState @RESOLVED
+          order.setResolution @SUCCEEDS
+        else
+          order.setState @RESOLVED
+          order.setResolution @FAILS
+        end
       else
         order.setState @RESOLVED
         order.setResolution @FAILS
@@ -45,7 +50,7 @@ class Adjudicator
     end
     if(order.type === 'M') then
       if(isValidMove(order)) then
-        buildPath(order, t, t2)
+        buildPath(order)
         order.setDefendStrength(calculateDefendStrength(order))
         order.setPreventStrength(calculatePreventStrength(order))
         if(h2hOrder) then
@@ -125,6 +130,7 @@ class Adjudicator
 
   def beatsPrevents(order, competeOrders)
     competeOrders.each do |c|
+      resolve(c)
       if (c.preventStrength >= order.attackStrength) then 
         return false
       end
@@ -132,12 +138,13 @@ class Adjudicator
     return true
   end
 
-  def buildPath(order, t, t2)
+  def buildPath(order)
+    t = getTerritoryById(order.territory)
+    t2 = getTerritoryById(order.moveTerritory)
     orderForMoveTerritory = @orders.find {|o| o.territory === order.moveTerritory}
     if(orderForMoveTerritory && isSameNationalityAttack(order, orderForMoveTerritory)) then
       order.setAttackStrength(0)
-    end
-    if(t.neighbors.include? order.moveTerritory ) then
+    elsif(t.neighbors.include? order.moveTerritory ) then
       # direct move
       order.setAttackStrength(calculateMoveStrength(order))
     else
@@ -151,6 +158,7 @@ class Adjudicator
       if(!isValid || validConvoys.find {|f| f.resolution == @FAILS}) then
         order.setState @RESOLVED
         order.setResolution @FAILS
+        order.setPreventStrength(0)
       else
         order.setAttackStrength(calculateMoveStrength(order))
       end
@@ -163,7 +171,8 @@ class Adjudicator
     && o.supportUnit == 'A' \
     && o.supportTerritory == order.territory \
     && o.supportToTerritory == order.moveTerritory \
-    && getTerritoryById(o.territory).type == 'w'
+    && getTerritoryById(o.territory).type == 'w' \
+    && isValidMove(order)
   end
 
   def getValidConvoyPath(convoys, start, endT)
@@ -215,9 +224,6 @@ class Adjudicator
 
   def calculatePreventStrength(order)
     strength = 1
-    if(order.resolution == @FAILS) then
-      return 0
-    end
     @orders.each do |o|
       if(isValidSupport(o, order)) then
         if(resolve(o)) then
@@ -259,17 +265,22 @@ class Adjudicator
     t = getTerritoryById(o.territory)
     return o.type == 'S' \
     && t.neighbors.include?(o.supportToTerritory)  \
-    && isValidMoveForUnit(o.unit, o.supportToTerritory) \
+    && isValidMoveForSupport(o) \
     && isValidMove(receivingOrder) \
     && o.supportUnit == receivingOrder.unit \
     && o.supportTerritory == receivingOrder.territory \
     && o.supportToTerritory == receivingOrder.moveTerritory
   end
 
-  def isValidMoveForUnit(unit, territory)
-    t = getTerritoryById(territory)
-    return unit == 'A' && ['l','c'].include?(t.type) \
-    || unit == 'F' && ['w','c'].include?(t.type)
+  def isValidMoveForSupport(o)
+    fromTerritory = getTerritoryById(o.territory)
+    toTerritory = getTerritoryById(o.supportToTerritory)
+    return o.unit == 'A' && ['l','c'].include?(toTerritory.type) \
+    || (
+      o.unit == 'F' \
+      && ['w','c'].include?(toTerritory.type) \
+      && !toTerritory.fleetRestrictions.include?(fromTerritory.id)
+    )
   end 
 
   def isValidMove(o)
@@ -277,7 +288,11 @@ class Adjudicator
     toTerritory = getTerritoryById(o.moveTerritory)
     return (
       o.unit == 'A' && ['l','c'].include?(toTerritory.type) \
-      || o.unit == 'F' && ['w','c'].include?(toTerritory.type)
+      || (
+        o.unit == 'F' \
+        && ['w','c'].include?(toTerritory.type) \
+        && !toTerritory.fleetRestrictions.include?(fromTerritory.id)
+      )
     ) \
     && fromTerritory.id == o.territory \
     && fromTerritory.country == o.country \

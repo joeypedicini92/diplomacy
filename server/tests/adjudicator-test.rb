@@ -301,7 +301,7 @@ class TestAdjudicator < Test::Unit::TestCase
 
     Adjudicator.new(@game.territories, orders)
 
-    assert_equal('succeeds', orders[0].resolution )
+    assert_equal('fails', orders[0].resolution )
     assert_equal('fails', orders[1].resolution )
     assert_equal('fails', orders[2].resolution )
     assert_equal('succeeds', orders[3].resolution )
@@ -310,15 +310,76 @@ class TestAdjudicator < Test::Unit::TestCase
 
   def test_order_other_country_fails
     orders = [
-      Order.new("Russia", "F", "LON", "M", "NTH", "", "", "", ""),
+      Order.new("England", "F", "LON", "M", "NTH", "", "", "", ""),
+      Order.new("England", "F", "ENG", "H", "ENG", "", "", "", ""),
     ]
-
-    lon = @game.territories.find {|t| t.id === 'LON'}
-
-    lon.setCountry('England')
 
     Adjudicator.new(@game.territories, orders)
 
     assert_equal('fails', orders[0].resolution )
+    assert_equal('fails', orders[1].resolution )
+  end
+
+  def test_fleet_must_follow_coast_fails
+    orders = [
+      Order.new("Russia", "F", "ROM", "M", "VEN", "", "", "", ""),
+    ]
+
+    Adjudicator.new(@game.territories, orders)
+
+    assert_equal('fails', orders[0].resolution )
+  end
+
+  def test_support_unreachable_destination_fails
+    orders = [
+      Order.new("Austria", "A", "VEN", "H", "VEN", "", "", "", ""),
+      Order.new("Russia", "A", "APU", "M", "VEN", "", "", "", ""),
+      Order.new("Russia", "F", "ROM", "S", "ROM", "A", "M", "APU", "VEN"),
+    ]
+
+    lon = @game.territories.find {|t| t.id === 'VEN'}
+
+    lon.setCountry('Austria')
+
+    Adjudicator.new(@game.territories, orders)
+
+    assert_equal('succeeds', orders[0].resolution )
+    assert_equal('fails', orders[1].resolution )
+    assert_equal('fails', orders[2].resolution )
+  end
+
+  def test_simple_bounce_fails
+    orders = [
+      Order.new("Austria", "A", "VIE", "M", "TYR", "", "", "", ""),
+      Order.new("Russia", "A", "VEN", "M", "TYR", "", "", "", ""),
+    ]
+
+    lon = @game.territories.find {|t| t.id === 'VIE'}
+
+    lon.setCountry('Austria')
+
+    Adjudicator.new(@game.territories, orders)
+
+    assert_equal('fails', orders[0].resolution )
+    assert_equal('fails', orders[1].resolution )
+  end
+
+  def test_three_bounce_each_fails
+    orders = [
+      Order.new("Austria", "A", "VIE", "M", "TYR", "", "", "", ""),
+      Order.new("Russia", "A", "VEN", "M", "TYR", "", "", "", ""),
+      Order.new("Italy", "A", "BOH", "M", "TYR", "", "", "", ""),
+    ]
+
+    lon = @game.territories.find {|t| t.id === 'VIE'}
+    itl = @game.territories.find {|t| t.id === 'BOH'}
+    lon.setCountry('Austria')
+    itl.setCountry('Italy')
+
+    Adjudicator.new(@game.territories, orders)
+
+    assert_equal('fails', orders[0].resolution )
+    assert_equal('fails', orders[1].resolution )
+    assert_equal('fails', orders[2].resolution )
   end
 end

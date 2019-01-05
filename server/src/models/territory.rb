@@ -4,7 +4,7 @@ class Territory
     @type = type
     @points = sc
     @neighbors = neighbors
-    @fleetRestrictions = fleetRestrictions
+    @fleetRestrictions = fleetRestrictions || []
     @country = country
     @holdStrength = 0
   end
