@@ -53,4 +53,9 @@ class Territory
     @unit = unit
     @country = country
   end
+
+  def setCountry(c)
+    @country = c
+  end
+
 end

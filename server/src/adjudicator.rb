@@ -44,7 +44,7 @@ class Adjudicator
       end
     end
     if(order.type === 'M') then
-      if(isValidMove(order, t, t2)) then
+      if(isValidMove(order)) then
         buildPath(order, t, t2)
         order.setDefendStrength(calculateDefendStrength(order))
         order.setPreventStrength(calculatePreventStrength(order))
@@ -106,6 +106,9 @@ class Adjudicator
           order.setState @RESOLVED
           order.setResolution @FAILS
         end
+      else
+        order.setState @RESOLVED
+        order.setResolution @FAILS
       end
     end
     return order.resolution
@@ -257,6 +260,7 @@ class Adjudicator
     return o.type == 'S' \
     && t.neighbors.include?(o.supportToTerritory)  \
     && isValidMoveForUnit(o.unit, o.supportToTerritory) \
+    && isValidMove(receivingOrder) \
     && o.supportUnit == receivingOrder.unit \
     && o.supportTerritory == receivingOrder.territory \
     && o.supportToTerritory == receivingOrder.moveTerritory
@@ -268,12 +272,19 @@ class Adjudicator
     || unit == 'F' && ['w','c'].include?(t.type)
   end 
 
-  def isValidMove(o, fromTerritory, toTerritory)
+  def isValidMove(o)
+    fromTerritory = getTerritoryById(o.territory)
+    toTerritory = getTerritoryById(o.moveTerritory)
     return (
       o.unit == 'A' && ['l','c'].include?(toTerritory.type) \
       || o.unit == 'F' && ['w','c'].include?(toTerritory.type)
     ) \
-    && fromTerritory.id == o.territory
+    && fromTerritory.id == o.territory \
+    && fromTerritory.country == o.country \
+    && (
+      (o.type == 'M' && fromTerritory.id != toTerritory.id) \
+    || (['H', 'S', 'C'].include?(o.type) && fromTerritory.id == toTerritory.id)
+    )
   end
 
   def resolve(order)

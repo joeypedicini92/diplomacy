@@ -7,6 +7,7 @@ class TestAdjudicator < Test::Unit::TestCase
 
   def setup
     @game = Game.new([])
+    @game.territories.each {|t| t.setCountry('Russia')}
   end
 
   def test_hold_simple_succeeds
@@ -290,9 +291,14 @@ class TestAdjudicator < Test::Unit::TestCase
       Order.new("England", "F", "NTH", "C", "NTH", "A", "M", "YOR", "YOR"),
       Order.new("England", "A", "YOR", "M", "YOR", "", "", "", ""),
       Order.new("England", "A", "LPL", "S", "LPL", "A", "M", "YOR", "YOR"),
-      Order.new("Germany", "F", "LON", "M", "YOR", "", "", "", ""),
-      Order.new("Germany", "A", "WAL", "S", "WAL", "F", "M", "LON", "YOR"),
+      Order.new("Russia", "F", "LON", "M", "YOR", "", "", "", ""),
+      Order.new("Russia", "A", "WAL", "S", "WAL", "F", "M", "LON", "YOR")
     ]
+
+    ts = @game.territories.select {|t| ['NTH', 'YOR', 'LPL'].include?(t.id)}
+
+    ts.each {|t| t.setCountry('England')}
+
     Adjudicator.new(@game.territories, orders)
 
     assert_equal('succeeds', orders[0].resolution )
@@ -301,6 +307,18 @@ class TestAdjudicator < Test::Unit::TestCase
     assert_equal('succeeds', orders[3].resolution )
     assert_equal('succeeds', orders[4].resolution )
   end
-# The move of the army in Yorkshire is illegal. This makes the support of Liverpool also illegal and without the support, the Germans have a stronger force. The army in London dislodges the army in Yorkshire.
- 
+
+  def test_order_other_country_fails
+    orders = [
+      Order.new("Russia", "F", "LON", "M", "NTH", "", "", "", ""),
+    ]
+
+    lon = @game.territories.find {|t| t.id === 'LON'}
+
+    lon.setCountry('England')
+
+    Adjudicator.new(@game.territories, orders)
+
+    assert_equal('fails', orders[0].resolution )
+  end
 end
