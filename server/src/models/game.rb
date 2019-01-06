@@ -2,16 +2,16 @@ require 'csv'
 require_relative 'territory'
 
 class Game
-  def initialize(players)
+  def initialize()
     @chats = []
-    @players = players
+    @orders = []
+    @players = []
     @year = 1901
     @phase = self.phases.first
     @territories = []
     CSV.foreach("assets/territories.csv") do |row|
       @territories << Territory.new(row[0], row[1], row[2], row[3], row[4], row[5])
     end
-    @players.each_with_index {|player, index| player.setCountry(self.countries[index]) } # set player countries
   end
 
   def players
@@ -44,5 +44,17 @@ class Game
 
   def countries
     ['England', 'France', 'Germany', 'Italy', 'Austria/Hungary', 'Ottoman Empire', 'Russia']
+  end
+
+  def addOrder(order)
+    @orders << order
+  end
+
+  def removeOrder(order)
+    @orders.delete(order)
+  end
+
+  def addPlayer(player)
+    @players << player
   end
 end
