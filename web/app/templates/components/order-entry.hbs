@@ -1,1 +1,50 @@
-{{yield}}
+<div>
+  <h1>Orders:</h1>
+  <form>
+    {{#each units as |unit|}}
+      {{unit.type}} - {{unit.territory}}
+      <div class="form-object">
+        <label for="orderType">Order</label> 
+        {{#power-select
+          selected=unit.order
+          options=orders
+          onchange=(action (mut unit.order))
+          placeholder="Select an order type"
+          as |o|
+          }}
+          {{o.display}}
+        {{/power-select}}
+      </div>
+
+      {{#if (contains unit.order.id (array "S" "C"))}}
+        <div class="form-object">
+          <label for="fromTerritory">From Territory</label>
+          {{#power-select
+            selected=unit.fromTerritory
+            options=territories
+            onchange=(action (mut unit.fromTerritory))
+            placeholder="Select a from territory"
+            as |t|
+            }}
+            {{t.id}}
+          {{/power-select}}
+        </div>
+      {{/if}}
+      
+      {{#if (contains unit.order.id (array "S" "C" "M"))}}
+        <div class="form-object">
+          <label for="toTerritory">To Territory</label>
+          {{#power-select
+            selected=unit.toTerritory
+            options=territories
+            onchange=(action (mut unit.toTerritory))
+            placeholder="Select a to territory"
+            as |t|
+            }}
+            {{t.id}}
+          {{/power-select}}
+        </div>
+      {{/if}}
+    {{/each}}
+  </form>
+</div>

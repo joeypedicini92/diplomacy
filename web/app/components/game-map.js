@@ -109,13 +109,11 @@ export default Component.extend({
 
     territories.forEach((elem) => {
       elem.addEventListener("mouseover", (event) => {
-        console.log('hi')
         event.target.style.fill = "orange";
         this.showPopup(elem)
       }, false);
 
       elem.addEventListener("mouseleave", (event) => {
-        console.log('bye')
         event.target.style.fill = "";
         this.hidePopup()
       }, false);
@@ -124,7 +122,6 @@ export default Component.extend({
 
   showPopup(elem) {
     var box = elem.getBBox();
-    debugger
     this.mypopup.style.x = box.x + (box.width / 2) - 30 + "px";
     this.mypopup.style.y = box.y + (box.height / 2) - 18 + "px";
     this.mypopup.style.display = "block";
