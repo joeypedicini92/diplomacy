@@ -1,6 +1,10 @@
 import Component from '@ember/component';
+import { inject as service } from '@ember/service';
 
 export default Component.extend({
+  store: service(),
+  session: service(),
+
   didInsertElement() {
     this._super(...arguments);
 
@@ -71,6 +75,24 @@ export default Component.extend({
       return false;
     } else {
       return true;
+    }
+  },
+
+  actions: {
+    submitOrders() {
+      this.units.forEach((u) => {
+        var order = this.get('store').createRecord('order', {
+          territory: u.territory,
+          moveTerritory: u.order.id === 'M' ? u.toTerritory.id : u.territory,
+          type: u.order.id,
+          unit: u.type,
+          supportType: (u.fromTerritory && u.fromTerritory.id) ? 'A' : undefined,
+          supportToTerritory: ['S', 'C'].includes(u.order.id) ? u.toTerritory.id : undefined,
+          supportFromTerritory: ['S', 'C'].includes(u.order.id) ? u.fromTerritory.id : undefined,
+          userId: this.get('session.currentUser.uid')
+        });
+        order.save();
+      });
     }
   }
 });

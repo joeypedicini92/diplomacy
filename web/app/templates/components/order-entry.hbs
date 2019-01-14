@@ -1,6 +1,6 @@
 <div>
   <h1>Orders:</h1>
-  <form>
+  <form {{action "submitOrders" on="submit"}}>
     {{#each units as |unit|}}
       {{unit.type}} - {{unit.territory}}
       <div class="form-object">
@@ -46,5 +46,7 @@
         </div>
       {{/if}}
     {{/each}}
+
+    <input type="submit" value="Submit">
   </form>
 </div>

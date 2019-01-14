@@ -34,6 +34,17 @@ const SHIP = `M313.49,306H68.373v-62.997c0-4.97,4.029-9,9-9H271.93c3.409,0,6.525
 		 M296.98,392.375c0-9.644-7.816-17.46-17.459-17.46c-9.643,0-17.459,7.816-17.459,17.46c0,9.643,7.817,17.459,17.459,17.459
     C289.164,409.834,296.98,402.018,296.98,392.375z`;
 
+const LINE = `<svg width="500" height="500" xmlns="http://www.w3.org/2000/svg" viewBox="0 40 400 200">
+    <marker id="triangle"
+      viewBox="0 0 10 10" refX="0" refY="5" 
+      markerUnits="strokeWidth"
+      markerWidth="4" markerHeight="3"
+      orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" />
+    </marker>
+	<line x1="100" y1="50.5" x2="300" y2="50.5" marker-end="url(#triangle)" stroke="black" stroke-width="10"/>
+</svg>`;
+
 function drawUnitOnPath(path, t) {
   let d = t.unit === 'A' ? CANNON : SHIP;
   let box = path.getBBox();
