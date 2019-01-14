@@ -1,5 +1,8 @@
 <div>
   <h1>Orders:</h1>
+  {{#each submittedOrders as |o|}}
+    {{o.territory}} - {{o.moveTerritory}}
+  {{/each}}
   <form {{action "submitOrders" on="submit"}}>
     {{#each units as |unit|}}
       {{unit.type}} - {{unit.territory}}

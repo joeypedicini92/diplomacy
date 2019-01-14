@@ -83,12 +83,16 @@ export default Component.extend({
       this.units.forEach((u) => {
         var order = this.get('store').createRecord('order', {
           territory: u.territory,
+          country: 'england',
           moveTerritory: u.order.id === 'M' ? u.toTerritory.id : u.territory,
           type: u.order.id,
           unit: u.type,
           supportType: (u.fromTerritory && u.fromTerritory.id) ? 'A' : undefined,
           supportToTerritory: ['S', 'C'].includes(u.order.id) ? u.toTerritory.id : undefined,
           supportFromTerritory: ['S', 'C'].includes(u.order.id) ? u.fromTerritory.id : undefined,
+          year: 1901,
+          season: 'spring',
+          phase: 'move',
           userId: this.get('session.currentUser.uid')
         });
         order.save();
