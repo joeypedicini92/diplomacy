@@ -1,6 +1,11 @@
 {
   "rules": {
-    ".read": false,
-    ".write": false
+    ".read": true,
+    ".write": true,
+    "orders": {
+      ".indexOn": [
+        "year"
+      ]
+    }
   }
 }
