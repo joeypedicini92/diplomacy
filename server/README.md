@@ -1,8 +1,8 @@
 # Joey's Diplomacy Server!
 
 ## Setup
-* `gem install`
-* `ruby app.rb`
+* `bundle install`
+* `ruby src/app.rb`
 * `http://localhost:4567/`
 
 ## Notes
