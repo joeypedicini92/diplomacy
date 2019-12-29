@@ -1,5 +1,3 @@
-import { TerritoryInterface } from './types';
-
-export class Territory implements TerritoryInterface {
+export class Territory {
   poop: 'hi';
 }

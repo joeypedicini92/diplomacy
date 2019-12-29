@@ -7,5 +7,69 @@
 </ion-header>
 
 <ion-content>
-  <app-map></app-map>
+  <ion-fab #orderMenu vertical="top" horizontal="start" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="arrow-dropright"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="end">
+      <ion-fab-button #hold (click)="onActionClick('H', $event)">
+        <ion-icon id="hold" name="pause"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button #move (click)="onActionClick('M', $event)">
+        <ion-icon id="move" name="play"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button #support (click)="onActionClick('S', $event)">
+        <ion-icon id="support" name="fastforward"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button #convoy (click)="onActionClick('C', $event)">
+        <ion-icon id="convoy" name="share"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+  <app-map [units]="units" (territoryClicked)="onTerritoryClicked($event)"></app-map>
+  <div *ngIf="pendingOrder">
+    {{pendingOrder.unit | json}} - {{pendingOrder.type}} - {{pendingOrder.secondaryUnit | json}} - {{pendingOrder.toTerritoryId}}
+  </div>
+  <ion-list>
+    <ion-item *ngFor="let order of orders">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            {{order.unit.type}} {{order.unit.territoryId}}
+          </ion-col>
+          <ion-col>
+            <ion-select [(ngModel)]="order.type" placeholder="Move Type" okText="Okay" cancelText="Dismiss">
+              <ion-select-option value="H">Hold</ion-select-option>
+              <ion-select-option value="M">Move</ion-select-option>
+              <ion-select-option value="S">Support</ion-select-option>
+              <ion-select-option value="C">Convoy</ion-select-option>
+            </ion-select>
+          </ion-col>
+          <ion-col *ngIf="order.type === 'S'">
+            <ion-select [(ngModel)]="order.fromTerritoryId" placeholder="From" okText="Okay" cancelText="Dismiss">
+              <ion-select-option *ngFor="let t of getValidSupportFromTerritories(order.unit.territoryId)" [value]="t">{{t}}
+              </ion-select-option>
+            </ion-select>
+          </ion-col>
+          <ion-col *ngIf="order.type === 'S'">
+            <ion-select [(ngModel)]="order.toTerritoryId" placeholder="To" okText="Okay" cancelText="Dismiss">
+              <ion-select-option *ngFor="let t of getValidSupportToTerritories(order.unit.territoryId)" [value]="t">{{t}}
+              </ion-select-option>
+            </ion-select>
+          </ion-col>
+          <ion-col *ngIf="order.type === 'C'">
+        <ion-select [(ngModel)]="order.fromTerritoryId" placeholder="From" okText="Okay" cancelText="Dismiss">
+          <ion-select-option *ngFor="let t of getValidConvoyTerritories()" [value]="t">{{t}}
+          </ion-select-option>
+        </ion-select>
+          </ion-col>
+          <ion-col *ngIf="order.type === 'C'">
+        <ion-select [(ngModel)]="order.toTerritoryId" placeholder="To" okText="Okay" cancelText="Dismiss">
+          <ion-select-option *ngFor="let t of getValidConvoyTerritories()" [value]="t">{{t}}</ion-select-option>
+        </ion-select>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
 </ion-content>

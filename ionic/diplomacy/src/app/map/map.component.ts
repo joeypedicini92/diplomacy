@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { SvgHelper } from '../shared/svg-helper';
-import { UnitInterface, Nation, UnitType } from '../models/types';
+import { UnitInterface, Nation, UnitType, TerritoryInterface } from '../models/types';
 
 @Component({
   selector: 'app-map',
@@ -11,43 +11,9 @@ export class MapComponent implements OnInit {
   @ViewChild('map', { static: true }) map: ElementRef;
   svgMap: any;
   popup: any;
-  units: UnitInterface[] = [
-    {
-      territoryId: 'mos',
-      nation: Nation.Russia,
-      type: UnitType.Army
-    },
-    {
-      territoryId: 'lpl',
-      nation: Nation.England,
-      type: UnitType.Fleet
-    },
-    {
-      territoryId: 'par',
-      nation: Nation.France,
-      type: UnitType.Army
-    },
-    {
-      territoryId: 'ank',
-      nation: Nation.Turkey,
-      type: UnitType.Fleet
-    },
-    {
-      territoryId: 'tri',
-      nation: Nation.Austria,
-      type: UnitType.Army
-    },
-    {
-      territoryId: 'nap',
-      nation: Nation.Italy,
-      type: UnitType.Fleet
-    },
-    {
-      territoryId: 'ber',
-      nation: Nation.Germany,
-      type: UnitType.Army
-    }
-  ];
+  @Input() units: UnitInterface[];
+  @Output() territoryClicked = new EventEmitter<string>();
+  selectedTerritory: SVGPathElement;
 
   constructor() { }
 
@@ -70,14 +36,22 @@ export class MapComponent implements OnInit {
     const territories = this.svgMap.querySelectorAll('.territory');
 
     territories.forEach((elem) => {
-      elem.addEventListener('mouseover', (event: MouseEvent) => {
-        ( event.target as SVGPathElement).style.fill = 'orange';
+      elem.addEventListener('mouseover', () => {
         this.showPopup(elem);
       }, false);
 
-      elem.addEventListener('mouseleave', (event) => {
-        (event.target as SVGPathElement).style.fill = '';
+      elem.addEventListener('mouseleave', () => {
         this.hidePopup();
+      }, false);
+
+      elem.addEventListener('click', (event) => {
+        if (this.selectedTerritory) {
+          this.selectedTerritory.style.fill = '';
+        }
+        this.selectedTerritory = (event.target as SVGPathElement);
+        this.selectedTerritory.style.fill = 'orange';
+        const id = this.selectedTerritory.getAttribute('data-name');
+        this.territoryClicked.emit(id);
       }, false);
     });
   }
