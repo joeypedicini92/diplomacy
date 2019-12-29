@@ -11,9 +11,17 @@ export class MapComponent implements OnInit {
   @ViewChild('map', { static: true }) map: ElementRef;
   svgMap: any;
   popup: any;
-  @Input() units: UnitInterface[];
+  @Input()
+  get units(): UnitInterface[] {
+    return this.us;
+  }
+  set units(u: UnitInterface[]) {
+    this.us = u;
+  }
   @Output() territoryClicked = new EventEmitter<string>();
   selectedTerritory: SVGPathElement;
+
+  private us: UnitInterface[];
 
   constructor() { }
 

@@ -2,7 +2,7 @@ import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { TerritoryInterface, UnitInterface, Nation, UnitType, OrderInterface, OrderType, TerritoryType } from '../models/types';
 import { IonFab, IonFabList, IonFabButton } from '@ionic/angular';
 import { Order } from '../models/order';
-import territoryList from '../shared/territories.json';
+import { GameService } from '../shared/game.service';
 
 @Component({
   selector: 'app-tab2',
@@ -10,47 +10,11 @@ import territoryList from '../shared/territories.json';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
-  units: UnitInterface[] = [
-    {
-      territoryId: 'mos',
-      nation: Nation.Russia,
-      type: UnitType.Army
-    },
-    {
-      territoryId: 'lpl',
-      nation: Nation.England,
-      type: UnitType.Fleet
-    },
-    {
-      territoryId: 'par',
-      nation: Nation.France,
-      type: UnitType.Army
-    },
-    {
-      territoryId: 'ank',
-      nation: Nation.Turkey,
-      type: UnitType.Fleet
-    },
-    {
-      territoryId: 'tri',
-      nation: Nation.Austria,
-      type: UnitType.Army
-    },
-    {
-      territoryId: 'nap',
-      nation: Nation.Italy,
-      type: UnitType.Fleet
-    },
-    {
-      territoryId: 'ber',
-      nation: Nation.Germany,
-      type: UnitType.Army
-    }
-  ];
-  territories: TerritoryInterface[] = territoryList;
+  units: UnitInterface[];
+  territories: TerritoryInterface[];
+  orders: Order[];
 
   pendingOrder: Order = null;
-  orders: Order[];
   ordersFinalized = false;
 
   @ViewChild('orderMenu', { static: true }) orderMenu: IonFab;
@@ -59,13 +23,17 @@ export class Tab2Page {
   @ViewChild('support', { static: false }) orderSupport: IonFabButton;
   @ViewChild('convoy', { static: false }) orderConvoy: IonFabButton;
 
-  constructor(private cdr: ChangeDetectorRef) {
-    this.orders = [
-      {
-        unit: this.units[0],
-        type: OrderType.Hold
-      }
-    ];
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private gameService: GameService
+  ) {
+    gameService.orders.subscribe(o => this.orders = o);
+    gameService.units.subscribe(u => this.units = u);
+    gameService.territories.subscribe(t => this.territories = t);
+  }
+
+  onSubmitClicked() {
+    this.gameService.submitOrders(this.orders);
   }
 
   onTerritoryClicked(territoryId: string) {

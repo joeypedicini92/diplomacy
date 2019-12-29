@@ -27,9 +27,6 @@
     </ion-fab-list>
   </ion-fab>
   <app-map [units]="units" (territoryClicked)="onTerritoryClicked($event)"></app-map>
-  <div *ngIf="pendingOrder">
-    {{pendingOrder.unit | json}} - {{pendingOrder.type}} - {{pendingOrder.secondaryUnit | json}} - {{pendingOrder.toTerritoryId}}
-  </div>
   <ion-list>
     <ion-item *ngFor="let order of orders">
       <ion-grid>
@@ -72,4 +69,5 @@
       </ion-grid>
     </ion-item>
   </ion-list>
+  <ion-button expand="block" (click)="onSubmitClicked()">Submit Orders</ion-button>
 </ion-content>
