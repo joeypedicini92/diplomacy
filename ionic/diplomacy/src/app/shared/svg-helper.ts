@@ -1,4 +1,5 @@
-import { UnitInterface, UnitType } from '../models/types';
+import { UnitInterface, UnitType, OrderType } from '../models/types';
+import { Order } from '../models/order';
 
 const CANNON = `M474.549,334.223c-17.519,0-25.497-7.092-36.539-16.908c-9.09-8.081-19.813-17.598-36.409-22.139
 			c2.023-7.54,3.484-15.309,4.319-23.262l11.266,0.203v15.172h31.289v-14.88C483.912,269.964,512,240.372,512,204.325
@@ -42,6 +43,8 @@ const LINE = `<svg width="500" height="500" xmlns="http://www.w3.org/2000/svg" v
 	<line x1="100" y1="50.5" x2="300" y2="50.5" marker-end="url(#triangle)" stroke="black" stroke-width="10"/>
 </svg>`;
 
+const CIRCLE = `<circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" />`;
+
 export class SvgHelper {
 
   static buildUnit(path: SVGAElement, t: UnitInterface) {
@@ -53,6 +56,22 @@ export class SvgHelper {
     u.setAttribute('d', d);
     u.setAttribute('transform', `translate(${x}, ${y}) scale(0.1)`);
     u.setAttribute('class', `${t.nation.toLowerCase()} unit`);
+    u.setAttribute('data-terr', `${t.territoryId.toLowerCase()}`);
+    return u;
+  }
+
+  static buildCircle(path: SVGAElement) {
+    const d = CIRCLE;
+    const box = path.getBBox();
+    const x = box.x + (box.width / 2);
+    const y = box.y + (box.height / 2) + 10;
+    const u = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    u.setAttribute('cx', `${x}`);
+    u.setAttribute('cy', `${y}`);
+    u.setAttribute('r', '40');
+    u.setAttribute('stroke', 'black');
+    u.setAttribute('stroke-width', '10');
+    u.setAttribute('fill', 'none');
     return u;
   }
 
@@ -61,5 +80,13 @@ export class SvgHelper {
     const army = SvgHelper.buildUnit(svgEl, unit);
     map.getElementsByTagName('g')[0].appendChild(army);
     svgEl.classList.add(unit.nation.toLowerCase());
+  }
+
+  static drawOrderOnMap(map: SVGAElement, order: Order) {
+    const svgEl = map.querySelector(`[data-name=${order.unit.territoryId}]`) as SVGAElement;
+    if (order.type === OrderType.Hold) {
+      const holdCircle = SvgHelper.buildCircle(svgEl);
+      map.getElementsByTagName('g')[0].appendChild(holdCircle);
+    }
   }
 }

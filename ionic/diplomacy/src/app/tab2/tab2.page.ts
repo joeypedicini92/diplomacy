@@ -1,4 +1,4 @@
-import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { TerritoryInterface, UnitInterface, Nation, UnitType, OrderInterface, OrderType, TerritoryType } from '../models/types';
 import { IonFab, IonFabList, IonFabButton } from '@ionic/angular';
 import { Order } from '../models/order';
@@ -9,10 +9,18 @@ import { GameService } from '../shared/game.service';
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
-export class Tab2Page {
+export class Tab2Page implements AfterViewInit {
   units: UnitInterface[];
   territories: TerritoryInterface[];
-  orders: Order[];
+
+  get orders(): Order[] {
+    return this.os;
+  }
+
+  set orders(o: Order[]) {
+    this.os = o;
+    this.cdr.detectChanges();
+  }
 
   pendingOrder: Order = null;
   ordersFinalized = false;
@@ -23,13 +31,18 @@ export class Tab2Page {
   @ViewChild('support', { static: false }) orderSupport: IonFabButton;
   @ViewChild('convoy', { static: false }) orderConvoy: IonFabButton;
 
+  private os: Order[];
+
   constructor(
     private cdr: ChangeDetectorRef,
     private gameService: GameService
   ) {
-    gameService.orders.subscribe(o => this.orders = o);
-    gameService.units.subscribe(u => this.units = u);
-    gameService.territories.subscribe(t => this.territories = t);
+  }
+
+  ngAfterViewInit(): void {
+    this.gameService.orders.subscribe(o => this.orders = o);
+    this.gameService.units.subscribe(u => this.units = u);
+    this.gameService.territories.subscribe(t => this.territories = t);
   }
 
   onSubmitClicked() {
@@ -103,12 +116,14 @@ export class Tab2Page {
 
   private finalizePendingOrder() {
     const i = this.orders.findIndex(o => o.unit.territoryId === this.pendingOrder.unit.territoryId);
+    const newOrders = Object.assign([], this.orders);
     if (i > -1) {
-      this.orders[i] = Object.assign({}, this.pendingOrder);
+      newOrders[i] = Object.assign({}, this.pendingOrder);
     } else {
-      this.orders.push(Object.assign({}, this.pendingOrder));
+      newOrders.push(Object.assign({}, this.pendingOrder));
     }
     this.pendingOrder = null;
+    this.orders = newOrders;
   }
 
 }

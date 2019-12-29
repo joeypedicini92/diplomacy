@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { SvgHelper } from '../shared/svg-helper';
 import { UnitInterface, Nation, UnitType, TerritoryInterface } from '../models/types';
+import { Order } from '../models/order';
 
 @Component({
   selector: 'app-map',
@@ -18,18 +19,34 @@ export class MapComponent implements OnInit {
   set units(u: UnitInterface[]) {
     this.us = u;
   }
+
+  @Input()
+  get orders(): Order[] {
+    return this.os;
+  }
+  set orders(o: Order[]) {
+    this.os = o;
+    if (this.isLoaded) {
+      this.initializeOrdersOnMap();
+    }
+  }
+
   @Output() territoryClicked = new EventEmitter<string>();
   selectedTerritory: SVGPathElement;
 
   private us: UnitInterface[];
+  private os: Order[];
+  private isLoaded = false;
 
   constructor() { }
 
   ngOnInit() {
     this.map.nativeElement.addEventListener('load', () => {
+      this.isLoaded = true;
       this.svgMap = this.map.nativeElement.contentDocument;
       this.popup = this.svgMap.getElementById('tooltip');
       this.initializeUnitsOnMap();
+      this.initializeOrdersOnMap();
       this.applyHoverFunctionToTerritories();
     });
   }
@@ -37,6 +54,12 @@ export class MapComponent implements OnInit {
   private initializeUnitsOnMap(): void {
     this.units.forEach((unit) => {
       SvgHelper.drawUnitOnMap(this.svgMap, unit);
+    });
+  }
+
+  private initializeOrdersOnMap(): void {
+    this.orders.forEach((order) => {
+      SvgHelper.drawOrderOnMap(this.svgMap, order);
     });
   }
 
