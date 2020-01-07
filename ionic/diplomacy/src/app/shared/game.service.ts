@@ -51,10 +51,7 @@ export class GameService {
       }
     ]);
     this.orders = new BehaviorSubject<Order[]>([
-      {
-        unit: this.units.getValue()[0],
-        type: OrderType.Hold
-      }
+      new Order(this.units.getValue()[0], OrderType.Hold)
     ]);
   }
 

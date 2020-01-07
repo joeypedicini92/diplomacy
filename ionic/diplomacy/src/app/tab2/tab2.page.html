@@ -42,6 +42,12 @@
               <ion-select-option value="C">Convoy</ion-select-option>
             </ion-select>
           </ion-col>
+          <ion-col *ngIf="order.type === 'M'">
+            <ion-select [(ngModel)]="order.toTerritoryId" placeholder="To" okText="Okay" cancelText="Dismiss">
+              <ion-select-option *ngFor="let t of getValidSupportToTerritories(order.unit.territoryId)" [value]="t">{{t}}
+              </ion-select-option>
+            </ion-select>
+          </ion-col>
           <ion-col *ngIf="order.type === 'S'">
             <ion-select [(ngModel)]="order.fromTerritoryId" placeholder="From" okText="Okay" cancelText="Dismiss">
               <ion-select-option *ngFor="let t of getValidSupportFromTerritories(order.unit.territoryId)" [value]="t">{{t}}

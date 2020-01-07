@@ -22,7 +22,7 @@ export class Tab2Page implements AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  pendingOrder: Order = null;
+  pendingOrder: Order = new Order();
   ordersFinalized = false;
 
   @ViewChild('orderMenu', { static: true }) orderMenu: IonFab;
@@ -50,14 +50,22 @@ export class Tab2Page implements AfterViewInit {
   }
 
   onTerritoryClicked(territoryId: string) {
-    this.updateOrder(territoryId);
-    this.updateOrderMenu();
+    const unit = this.getUnitByTerritoryId(territoryId);
+    this.pendingOrder.updateBasedOnClickedTerritory(territoryId, unit);
+    if (this.pendingOrder.isComplete) {
+      this.addPendingOrderToFinalOrdersList();
+    }
+    this.toggleOrderMenuOpenClose();
     this.updateOrderMenuColors();
     this.cdr.detectChanges();
   }
 
   onActionClick(orderType: OrderType, event: Event) {
     this.pendingOrder.type = orderType;
+    if (this.pendingOrder.isComplete) {
+      this.addPendingOrderToFinalOrdersList();
+    }
+    this.toggleOrderMenuOpenClose();
     this.updateOrderMenuColors();
     event.stopPropagation();
   }
@@ -65,7 +73,7 @@ export class Tab2Page implements AfterViewInit {
   getValidSupportToTerritories(t: string) {
     return this.territories.filter((terr) => {
       return terr.neighbors.includes(t.toUpperCase());
-    }).map((terr) => terr.id).sort();
+    }).map((terr) => terr.id.toLowerCase()).sort();
   }
 
   getValidSupportFromTerritories(t: string) {
@@ -83,38 +91,22 @@ export class Tab2Page implements AfterViewInit {
   }
 
   private updateOrderMenuColors() {
-    const o = this.pendingOrder ? this.pendingOrder.type : null;
+    const o = this.pendingOrder.type;
     this.orderConvoy.color = o === OrderType.Convoy ? 'primary' : null;
     this.orderSupport.color = o === OrderType.Support ? 'primary' : null;
     this.orderHold.color = o === OrderType.Hold ? 'primary' : null;
     this.orderMove.color = o === OrderType.Move ? 'primary' : null;
   }
 
-  private updateOrderMenu() {
-    if (this.pendingOrder) {
+  private toggleOrderMenuOpenClose() {
+    if (this.pendingOrder.isStarted) {
       this.orderMenu.activated = true;
     } else {
       this.orderMenu.close();
     }
   }
 
-  private updateOrder(territoryId: string): void {
-    const unit = this.getUnitByTerritoryId(territoryId);
-    if (!this.pendingOrder && unit) {
-      // start a pending order if there wasn't an order already and the clicked territory has a unit
-      this.pendingOrder = new Order(unit);
-    } else if (!this.pendingOrder && !unit) {
-      // do nothing if theres no pending order and no unit clicked
-    } else if (!this.pendingOrder.type && !unit) {
-      // if theres a pending order with no type and you click a non-unit, clear the order
-      this.pendingOrder = null;
-    } else if (this.pendingOrder.type === OrderType.Hold) {
-      this.finalizePendingOrder();
-      // if theres a pending order
-    }
-  }
-
-  private finalizePendingOrder() {
+  private addPendingOrderToFinalOrdersList() {
     const i = this.orders.findIndex(o => o.unit.territoryId === this.pendingOrder.unit.territoryId);
     const newOrders = Object.assign([], this.orders);
     if (i > -1) {
@@ -122,8 +114,7 @@ export class Tab2Page implements AfterViewInit {
     } else {
       newOrders.push(Object.assign({}, this.pendingOrder));
     }
-    this.pendingOrder = null;
+    this.pendingOrder = new Order();
     this.orders = newOrders;
   }
-
 }
