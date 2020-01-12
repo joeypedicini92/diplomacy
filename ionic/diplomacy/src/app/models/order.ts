@@ -46,6 +46,12 @@ export class Order implements OrderInterface {
       this.setUnit(null);
     } else if (this.type === OrderType.Move) {
       this.toTerritoryId = territoryId;
+    } else if (this.type === OrderType.Support || this.type === OrderType.Convoy) {
+      if (this.fromTerritoryId) {
+        this.toTerritoryId = territoryId;
+      } else {
+        this.fromTerritoryId = territoryId;
+      }
     }
   }
 

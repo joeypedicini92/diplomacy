@@ -49,7 +49,7 @@ export class Tab2Page implements AfterViewInit {
     this.gameService.submitOrders(this.orders);
   }
 
-  onTerritoryClicked(territoryId: string) {
+  onTerritoryClick(territoryId: string) {
     const unit = this.getUnitByTerritoryId(territoryId);
     this.pendingOrder.updateBasedOnClickedTerritory(territoryId, unit);
     if (this.pendingOrder.isComplete) {
@@ -72,12 +72,12 @@ export class Tab2Page implements AfterViewInit {
 
   getValidSupportToTerritories(t: string) {
     return this.territories.filter((terr) => {
-      return terr.neighbors.includes(t.toUpperCase());
-    }).map((terr) => terr.id.toLowerCase()).sort();
+      return terr.neighbors.includes(t);
+    }).map((terr) => terr.id).sort();
   }
 
   getValidSupportFromTerritories(t: string) {
-    return this.units.map((u) => u.territoryId.toUpperCase()).sort();
+    return this.units.map((u) => u.territoryId).sort();
   }
 
   getValidConvoyTerritories() {

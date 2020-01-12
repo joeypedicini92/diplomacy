@@ -1,649 +1,649 @@
 [
   {
-    "id": "NAO",
+    "id": "nao",
     "type": "w",
     "supply_center": false,
-    "neighbors": ["NWS","CLY","LPL","IRS","MAO"],
+    "neighbors": ["nws","cly","lpl","irs","mao"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "NWS",
+    "id": "nws",
     "type": "w",
     "supply_center": false,
-    "neighbors": ["NAO","CLY","EDI","NTH","NWY","BAR"],
+    "neighbors": ["nao","cly","edi","nth","nwy","bar"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "BAR",
+    "id": "bar",
     "type": "w",
     "supply_center": false,
-    "neighbors": ["NWS","NWY","STP(n)"],
+    "neighbors": ["nws","nwy","stp(n)"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "IRS",
+    "id": "irs",
     "type": "w",
     "supply_center": false,
-    "neighbors": ["NAO","LPL","WAL","ENG","MAO"],
+    "neighbors": ["nao","lpl","wal","eng","mao"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "ENG",
+    "id": "eng",
     "type": "w",
     "supply_center": false,
-    "neighbors": ["WAL","IRS","LON","NTH","BEL","PIC","BRE","MAO"],
+    "neighbors": ["wal","irs","lon","nth","bel","pic","bre","mao"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "NTH",
+    "id": "nth",
     "type": "w",
     "supply_center": false,
-    "neighbors": ["EDI","YOR","LON","NWS","NWY","SKA","HEL","DEN","HOL","BEL","ENG"],
+    "neighbors": ["edi","yor","lon","nws","nwy","ska","hel","den","hol","bel","eng"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "SKA",
+    "id": "ska",
     "type": "w",
     "supply_center": false,
-    "neighbors": ["NWY","SWE","DEN","NTH"],
+    "neighbors": ["nwy","swe","den","nth"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "HEL",
+    "id": "hel",
     "type": "w",
     "supply_center": false,
-    "neighbors": ["NTH","DEN","KIE","HOL"],
+    "neighbors": ["nth","den","kie","hol"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "BAL",
+    "id": "bal",
     "type": "w",
     "supply_center": false,
-    "neighbors": ["SWE","DEN","KIE","BER","PRU","LVN","GOB"],
+    "neighbors": ["swe","den","kie","ber","pru","lvn","gob"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "GOB",
+    "id": "gob",
     "type": "w",
     "supply_center": false,
-    "neighbors": ["SWE","FIN","STP(s)","LVN","BAL"],
+    "neighbors": ["swe","fin","stp(s)","lvn","bal"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "MAO",
+    "id": "mao",
     "type": "w",
     "supply_center": false,
-    "neighbors": ["NAO","IRS","ENG","BRE","GAS","SPA(n)","POR","NAF","WMS","SPA(s)"],
+    "neighbors": ["nao","irs","eng","bre","gas","spa(n)","por","naf","wms","spa(s)"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "WMS",
+    "id": "wms",
     "type": "w",
     "supply_center": false,
-    "neighbors": ["MAO","SPA(s)","NAF","TUN","TYS","GOL"],
+    "neighbors": ["mao","spa(s)","naf","tun","tys","gol"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "GOL",
+    "id": "gol",
     "type": "w",
     "supply_center": false,
-    "neighbors": ["SPA(s)","MAR","PIE","TUS","TYS","WMS"],
+    "neighbors": ["spa(s)","mar","pie","tus","tys","wms"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "TYS",
+    "id": "tys",
     "type": "w",
     "supply_center": false,
-    "neighbors": ["WMS","GOL","TUN","TUS","ROM","NAP","ION"],
+    "neighbors": ["wms","gol","tun","tus","rom","nap","ion"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "ION",
+    "id": "ion",
     "type": "w",
     "supply_center": false,
-    "neighbors": ["TUN","TYS","NAP","APU","ADR","ALB","GRE","AEG","EMS"],
+    "neighbors": ["tun","tys","nap","apu","adr","alb","gre","aeg","ems"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "ADR",
+    "id": "adr",
     "type": "w",
     "supply_center": false,
-    "neighbors": ["VEN","APU","ION","TRI","ALB"],
+    "neighbors": ["ven","apu","ion","tri","alb"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "AEG",
+    "id": "aeg",
     "type": "w",
     "supply_center": false,
-    "neighbors": ["GRE","BUL(s)","CON","SMY","EMS","ION"],
+    "neighbors": ["gre","bul(s)","con","smy","ems","ion"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "EMS",
+    "id": "ems",
     "type": "w",
     "supply_center": false,
-    "neighbors": ["ION","AEG","SMY","SYR"],
+    "neighbors": ["ion","aeg","smy","syr"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "BLA",
+    "id": "bla",
     "type": "w",
     "supply_center": false,
-    "neighbors": ["SEV","RUM","BUL(e)","CON","ANK","ARM"],
+    "neighbors": ["sev","rum","bul(e)","con","ank","arm"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "EDI",
+    "id": "edi",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["CLY","NWS","NTH","YOR","LPL"],
-    "fleet_restrictions": ["LPL"],
-    "country": "England"
+    "neighbors": ["cly","nws","nth","yor","lpl"],
+    "fleet_restrictions": ["lpl"],
+    "country": "england"
   },
   {
-    "id": "LPL",
+    "id": "lpl",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["NAO","CLY","EDI","YOR","WAL","IRS"],
-    "fleet_restrictions": ["EDI","YOR"],
-    "country": "England"
+    "neighbors": ["nao","cly","edi","yor","wal","irs"],
+    "fleet_restrictions": ["edi","yor"],
+    "country": "england"
   },
   {
-    "id": "LON",
+    "id": "lon",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["YOR","WAL","NTH","ENG"],
+    "neighbors": ["yor","wal","nth","eng"],
     "fleet_restrictions": [],
-    "country": "England"
+    "country": "england"
   },
   {
-    "id": "POR",
+    "id": "por",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["MAO","SPA(n)","SPA(s)","SPA"],
-    "fleet_restrictions": [],
-    "country": ""
-  },
-  {
-    "id": "SPA(n)",
-    "type": "c",
-    "supply_center": true,
-    "neighbors": ["POR","MAO","GAS"],
+    "neighbors": ["mao","spa(n)","spa(s)","spa"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "SPA(s)",
+    "id": "spa(n)",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["MAO","POR","MAR","WMS","GOL"],
+    "neighbors": ["por","mao","gas"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "SPA",
+    "id": "spa(s)",
+    "type": "c",
+    "supply_center": true,
+    "neighbors": ["mao","por","mar","wms","gol"],
+    "fleet_restrictions": [],
+    "country": ""
+  },
+  {
+    "id": "spa",
     "type": "l",
     "supply_center": true,
-    "neighbors": ["POR","GAS","MAR"],
+    "neighbors": ["por","gas","mar"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "TUN",
+    "id": "tun",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["NAF","WMS","TYS","ION"],
+    "neighbors": ["naf","wms","tys","ion"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "GRE",
+    "id": "gre",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["ION","AEG","ALB","SER","BUL(s)","BUL"],
+    "neighbors": ["ion","aeg","alb","ser","bul(s)","bul"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "SER",
+    "id": "ser",
     "type": "l",
     "supply_center": true,
-    "neighbors": ["ALB","GRE","BUL","RUM","BUD","TRI"],
+    "neighbors": ["alb","gre","bul","rum","bud","tri"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "BUL(s)",
+    "id": "bul(s)",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["AEG","GRE","CON"],
+    "neighbors": ["aeg","gre","con"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "BUL(e)",
+    "id": "bul(e)",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["RUM","BLA","CON"],
+    "neighbors": ["rum","bla","con"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "BUL",
+    "id": "bul",
     "type": "l",
     "supply_center": true,
-    "neighbors": ["GRE","SER","RUM","CON"],
+    "neighbors": ["gre","ser","rum","con"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "RUM",
+    "id": "rum",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["BUD","GAL","UKR","SEV","BLA","BUL","BUL(e)","SER"],
+    "neighbors": ["bud","gal","ukr","sev","bla","bul","bul(e)","ser"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "BEL",
+    "id": "bel",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["PIC","ENG","NTH","HOL","RUH","BUR"],
+    "neighbors": ["pic","eng","nth","hol","ruh","bur"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "HOL",
+    "id": "hol",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["BEL","NTH","HEL","KIE","RUH"],
+    "neighbors": ["bel","nth","hel","kie","ruh"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "DEN",
+    "id": "den",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["HEL","NTH","SKA","SWE","BAL","KIE"],
+    "neighbors": ["hel","nth","ska","swe","bal","kie"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "SWE",
+    "id": "swe",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["NWY","DEN","FIN","SKA","BAL","GOB"],
+    "neighbors": ["nwy","den","fin","ska","bal","gob"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "NWY",
+    "id": "nwy",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["NWS","NTH","BAR","STP(n)","FIN","STP","SWE","SKA"],
-    "fleet_restrictions": ["FIN"],
+    "neighbors": ["nws","nth","bar","stp(n)","fin","stp","swe","ska"],
+    "fleet_restrictions": ["fin"],
     "country": ""
   },
   {
-    "id": "BRE",
+    "id": "bre",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["ENG","MAO","PIC","PAR","GAS"],
+    "neighbors": ["eng","mao","pic","par","gas"],
     "fleet_restrictions": [],
     "country": "France"
   },
   {
-    "id": "PAR",
+    "id": "par",
     "type": "l",
     "supply_center": true,
-    "neighbors": ["BRE","PIC","GAS","BUR"],
+    "neighbors": ["bre","pic","gas","bur"],
     "fleet_restrictions": [],
     "country": "France"
   },
   {
-    "id": "MAR",
+    "id": "mar",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["GAS","SPA","SPA(s)","GOL","PIE","BUR"],
-    "fleet_restrictions": ["GAS"],
+    "neighbors": ["gas","spa","spa(s)","gol","pie","bur"],
+    "fleet_restrictions": ["gas"],
     "country": "France"
   },
   {
-    "id": "VEN",
+    "id": "ven",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["PIE","TUS","ROM","APU","TYR","TRI","ADR"],
-    "fleet_restrictions": ["PIE","TUS","ROM"],
+    "neighbors": ["pie","tus","rom","apu","tyr","tri","adr"],
+    "fleet_restrictions": ["pie","tus","rom"],
     "country": "Italy"
   },
   {
-    "id": "ROM",
+    "id": "rom",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["TUS","NAP","APU","VEN","TYS"],
-    "fleet_restrictions": ["APU","VEN"],
+    "neighbors": ["tus","nap","apu","ven","tys"],
+    "fleet_restrictions": ["apu","ven"],
     "country": "Italy"
   },
   {
-    "id": "NAP",
+    "id": "nap",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["TYS","ION","ROM","APU"],
+    "neighbors": ["tys","ion","rom","apu"],
     "fleet_restrictions": [],
     "country": "Italy"
   },
   {
-    "id": "TRI",
+    "id": "tri",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["VEN","TYR","VIE","BUD","SER","ALB","ADR"],
+    "neighbors": ["ven","tyr","vie","bud","ser","alb","adr"],
     "fleet_restrictions": [],
     "country": "Austria/Hungary"
   },
   {
-    "id": "VIE",
+    "id": "vie",
     "type": "l",
     "supply_center": true,
-    "neighbors": ["TRI","TYR","BOH","GAL","BUD"],
+    "neighbors": ["tri","tyr","boh","gal","bud"],
     "fleet_restrictions": [],
     "country": "Austria/Hungary"
   },
   {
-    "id": "BUD",
+    "id": "bud",
     "type": "l",
     "supply_center": true,
-    "neighbors": ["VIE","TRI","SER","RUM","GAL"],
+    "neighbors": ["vie","tri","ser","rum","gal"],
     "fleet_restrictions": [],
     "country": "Austria/Hungary"
   },
   {
-    "id": "MUN",
+    "id": "mun",
     "type": "l",
     "supply_center": true,
-    "neighbors": ["BOH","TYR","BUR","RUH","KIE","BER","SIL"],
+    "neighbors": ["boh","tyr","bur","ruh","kie","ber","sil"],
     "fleet_restrictions": [],
     "country": "Germany"
   },
   {
-    "id": "KIE",
+    "id": "kie",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["DEN","BER","MUN","RUH","HOL","HEL","BAL"],
+    "neighbors": ["den","ber","mun","ruh","hol","hel","bal"],
     "fleet_restrictions": [],
     "country": "Germany"
   },
   {
-    "id": "BER",
+    "id": "ber",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["KIE","BAL","PRU","SIL","MUN"],
+    "neighbors": ["kie","bal","pru","sil","mun"],
     "fleet_restrictions": [],
     "country": "Germany"
   },
   {
-    "id": "WAR",
+    "id": "war",
     "type": "l",
     "supply_center": true,
-    "neighbors": ["PRU","SIL","GAL","UKR","MOS","LVN"],
+    "neighbors": ["pru","sil","gal","ukr","mos","lvn"],
     "fleet_restrictions": [],
     "country": "Russia"
   },
   {
-    "id": "STP(n)",
+    "id": "stp(n)",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["BAR","NWY"],
+    "neighbors": ["bar","nwy"],
     "fleet_restrictions": [],
     "country": "Russia"
   },
   {
-    "id": "STP(s)",
+    "id": "stp(s)",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["FIN","GOB","LVN"],
+    "neighbors": ["fin","gob","lvn"],
     "fleet_restrictions": [],
     "country": "Russia"
   },
   {
-    "id": "STP",
+    "id": "stp",
     "type": "l",
     "supply_center": true,
-    "neighbors": ["FIN","NWY","LVN","MOS"],
+    "neighbors": ["fin","nwy","lvn","mos"],
     "fleet_restrictions": [],
     "country": "Russia"
   },
   {
-    "id": "MOS",
+    "id": "mos",
     "type": "l",
     "supply_center": true,
-    "neighbors": ["LVN","STP","SEV","UKR","WAR"],
+    "neighbors": ["lvn","stp","sev","ukr","war"],
     "fleet_restrictions": [],
     "country": "Russia"
   },
   {
-    "id": "SEV",
+    "id": "sev",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["UKR","MOS","BLA","ARM","RUM"],
+    "neighbors": ["ukr","mos","bla","arm","rum"],
     "fleet_restrictions": [],
     "country": "Russia"
   },
   {
-    "id": "CON",
+    "id": "con",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["BUL","BUL(s)","BUL(e)","AEG","BLA","SMY","ANK"],
+    "neighbors": ["bul","bul(s)","bul(e)","aeg","bla","smy","ank"],
     "fleet_restrictions": [],
     "country": "Ottoman Empire"
   },
   {
-    "id": "SMY",
+    "id": "smy",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["CON","AEG","EMS","SYR","ANK","ARM"],
-    "fleet_restrictions": ["ANK","ARM"],
+    "neighbors": ["con","aeg","ems","syr","ank","arm"],
+    "fleet_restrictions": ["ank","arm"],
     "country": "Ottoman Empire"
   },
   {
-    "id": "ANK",
+    "id": "ank",
     "type": "c",
     "supply_center": true,
-    "neighbors": ["BLA","ARM","CON","SMY"],
-    "fleet_restrictions": ["SMY"],
+    "neighbors": ["bla","arm","con","smy"],
+    "fleet_restrictions": ["smy"],
     "country": "Ottoman Empire"
   },
   {
-    "id": "CLY",
+    "id": "cly",
     "type": "c",
     "supply_center": false,
-    "neighbors": ["NAO","LPL","EDI","NWS"],
+    "neighbors": ["nao","lpl","edi","nws"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "YOR",
+    "id": "yor",
     "type": "c",
     "supply_center": false,
-    "neighbors": ["EDI","LPL","WAL","LON","NTH"],
-    "fleet_restrictions": ["LPL","WAL"],
+    "neighbors": ["edi","lpl","wal","lon","nth"],
+    "fleet_restrictions": ["lpl","wal"],
     "country": ""
   },
   {
-    "id": "WAL",
+    "id": "wal",
     "type": "c",
     "supply_center": false,
-    "neighbors": ["LPL","LON","YOR","ENG","IRS"],
-    "fleet_restrictions": ["YOR"],
+    "neighbors": ["lpl","lon","yor","eng","irs"],
+    "fleet_restrictions": ["yor"],
     "country": ""
   },
   {
-    "id": "GAS",
+    "id": "gas",
     "type": "c",
     "supply_center": false,
-    "neighbors": ["BRE","PAR","BUR","MAR","SPA","SPA(n)","MAO"],
-    "fleet_restrictions": ["MAR"],
+    "neighbors": ["bre","par","bur","mar","spa","spa(n)","mao"],
+    "fleet_restrictions": ["mar"],
     "country": ""
   },
   {
-    "id": "PIC",
+    "id": "pic",
     "type": "c",
     "supply_center": false,
-    "neighbors": ["BRE","PAR","BUR","BEL","ENG","NTH"],
+    "neighbors": ["bre","par","bur","bel","eng","nth"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "BUR",
+    "id": "bur",
     "type": "l",
     "supply_center": false,
-    "neighbors": ["BEL","RUH","MUN","MAR","GAS","PAR","PIC"],
+    "neighbors": ["bel","ruh","mun","mar","gas","par","pic"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "PIE",
+    "id": "pie",
     "type": "c",
     "supply_center": false,
-    "neighbors": ["MAR","TUS","VEN","GOL","TYR"],
-    "fleet_restrictions": ["VEN"],
+    "neighbors": ["mar","tus","ven","gol","tyr"],
+    "fleet_restrictions": ["ven"],
     "country": ""
   },
   {
-    "id": "TUS",
+    "id": "tus",
     "type": "c",
     "supply_center": false,
-    "neighbors": ["PIE","VEN","ROM","GOL","TYS"],
-    "fleet_restrictions": ["VEN"],
+    "neighbors": ["pie","ven","rom","gol","tys"],
+    "fleet_restrictions": ["ven"],
     "country": ""
   },
   {
-    "id": "APU",
+    "id": "apu",
     "type": "c",
     "supply_center": false,
-    "neighbors": ["VEN","ROM","NAP","ADR","ION"],
-    "fleet_restrictions": ["ROM"],
+    "neighbors": ["ven","rom","nap","adr","ion"],
+    "fleet_restrictions": ["rom"],
     "country": ""
   },
   {
-    "id": "RUH",
+    "id": "ruh",
     "type": "l",
     "supply_center": false,
-    "neighbors": ["BEL","HOL","KIE","MUN","BUR"],
+    "neighbors": ["bel","hol","kie","mun","bur"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "SIL",
+    "id": "sil",
     "type": "l",
     "supply_center": false,
-    "neighbors": ["MUN","BER","PRU","WAR","GAL","BOH"],
+    "neighbors": ["mun","ber","pru","war","gal","boh"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "PRU",
+    "id": "pru",
     "type": "c",
     "supply_center": false,
-    "neighbors": ["BER","LVN","BAL","WAR","SIL"],
+    "neighbors": ["ber","lvn","bal","war","sil"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "TYR",
+    "id": "tyr",
     "type": "l",
     "supply_center": false,
-    "neighbors": ["VEN","PIE","TRI","VIE","BOH","MUN"],
+    "neighbors": ["ven","pie","tri","vie","boh","mun"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "BOH",
+    "id": "boh",
     "type": "l",
     "supply_center": false,
-    "neighbors": ["MUN","TYR","VIE","GAL","SIL"],
+    "neighbors": ["mun","tyr","vie","gal","sil"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "GAL",
+    "id": "gal",
     "type": "l",
     "supply_center": false,
-    "neighbors": ["BOH","SIL","WAR","UKR","RUM","BUD","VIE"],
+    "neighbors": ["boh","sil","war","ukr","rum","bud","vie"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "ARM",
+    "id": "arm",
     "type": "c",
     "supply_center": false,
-    "neighbors": ["BLA","ANK","SYR","SMY","SEV"],
-    "fleet_restrictions": ["SYR","SMY"],
+    "neighbors": ["bla","ank","syr","smy","sev"],
+    "fleet_restrictions": ["syr","smy"],
     "country": ""
   },
   {
-    "id": "SYR",
+    "id": "syr",
     "type": "c",
     "supply_center": false,
-    "neighbors": ["EMS","SMY","ARM"],
-    "fleet_restrictions": ["ARM"],
+    "neighbors": ["ems","smy","arm"],
+    "fleet_restrictions": ["arm"],
     "country": ""
   },
   {
-    "id": "UKR",
+    "id": "ukr",
     "type": "l",
     "supply_center": false,
-    "neighbors": ["WAR","MOS","SEV","RUM","GAL"],
+    "neighbors": ["war","mos","sev","rum","gal"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "LVN",
+    "id": "lvn",
     "type": "c",
     "supply_center": false,
-    "neighbors": ["BAL","GOB","STP(s)","STP","MOS","PRU"],
+    "neighbors": ["bal","gob","stp(s)","stp","mos","pru"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "FIN",
+    "id": "fin",
     "type": "c",
     "supply_center": false,
-    "neighbors": ["GOB","SWE","NWY","STP(s)","STP"],
-    "fleet_restrictions": ["NWY"],
+    "neighbors": ["gob","swe","nwy","stp(s)","stp"],
+    "fleet_restrictions": ["nwy"],
     "country": ""
   },
   {
-    "id": "NAF",
+    "id": "naf",
     "type": "c",
     "supply_center": false,
-    "neighbors": ["MAO","WMS","TUN"],
+    "neighbors": ["mao","wms","tun"],
     "fleet_restrictions": [],
     "country": ""
   },
   {
-    "id": "ALB",
+    "id": "alb",
     "type": "c",
     "supply_center": false,
-    "neighbors": ["ADR","ION","GRE","SER","TRI"],
+    "neighbors": ["adr","ion","gre","ser","tri"],
     "fleet_restrictions": [],
     "country": ""
   }
