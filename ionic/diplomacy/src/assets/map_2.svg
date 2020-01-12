@@ -91,6 +91,9 @@
         fill: #00cccc;
       }
     </style>
+    <marker id='arrowHead' orient='auto' markerWidth='2' markerHeight='4' refX='0.1' refY='2'>
+      <path d='M0,0 V4 L2,2 Z' fill='black' />
+    </marker>
   </defs>
   <title>map_2</title>
   <g>

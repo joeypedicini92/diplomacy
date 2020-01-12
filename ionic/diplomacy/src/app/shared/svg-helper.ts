@@ -32,19 +32,6 @@ const SHIP = `M313.49,306H68.373v-62.997c0-4.97,4.029-9,9-9H271.93c3.409,0,6.525
 		 M296.98,392.375c0-9.644-7.816-17.46-17.459-17.46c-9.643,0-17.459,7.816-17.459,17.46c0,9.643,7.817,17.459,17.459,17.459
     C289.164,409.834,296.98,402.018,296.98,392.375z`;
 
-const LINE = `<svg width="500" height="500" xmlns="http://www.w3.org/2000/svg" viewBox="0 40 400 200">
-    <marker id="triangle"
-      viewBox="0 0 10 10" refX="0" refY="5"
-      markerUnits="strokeWidth"
-      markerWidth="4" markerHeight="3"
-      orient="auto">
-      <path d="M 0 0 L 10 5 L 0 10 z" />
-    </marker>
-	<line x1="100" y1="50.5" x2="300" y2="50.5" marker-end="url(#triangle)" stroke="black" stroke-width="10"/>
-</svg>`;
-
-const CIRCLE = `<circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" />`;
-
 export class SvgHelper {
 
   static buildUnit(path: SVGAElement, t: UnitInterface) {
@@ -60,8 +47,59 @@ export class SvgHelper {
     return u;
   }
 
-  static buildCircle(path: SVGAElement) {
-    const d = CIRCLE;
+  static buildHoldCircle(path: SVGAElement) {
+    const box = path.getBBox();
+    const x = box.x + (box.width / 2);
+    const y = box.y + (box.height / 2) + 10;
+    const u = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    u.setAttribute('cx', `${x}`);
+    u.setAttribute('cy', `${y}`);
+    u.setAttribute('r', '40');
+    u.setAttribute('stroke', 'black');
+    u.setAttribute('stroke-width', '10');
+    u.setAttribute('fill', 'none');
+    return u;
+  }
+
+  static buildMoveLine(from: SVGAElement, to: SVGAElement) {
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    const boxA = from.getBBox();
+    const boxB = to.getBBox();
+    const x1 = boxA.x + (boxA.width / 2);
+    const x2 = boxB.x + (boxB.width / 2);
+    const y1 = boxA.y + (boxA.height / 2) + 10;
+    const y2 = boxB.y + (boxB.height / 2) + 10;
+    line.setAttribute('x1', `${x1}`);
+    line.setAttribute('x2', `${x2}`);
+    line.setAttribute('y1', `${y1}`);
+    line.setAttribute('y2', `${y2}`);
+    line.setAttribute('stroke', 'black');
+    line.setAttribute('stroke-width', '10');
+    line.setAttribute('marker-end', 'url(#arrowHead)');
+    return line;
+  }
+
+  static buildSupportLine(from: SVGAElement, to: SVGAElement) {
+    // TODO this will draw two dotted lines: unit -> fromTerritory...fromTerritory -> toTerritory
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    const boxA = from.getBBox();
+    const boxB = to.getBBox();
+    const x1 = boxA.x + (boxA.width / 2);
+    const x2 = boxB.x + (boxB.width / 2);
+    const y1 = boxA.y + (boxA.height / 2) + 10;
+    const y2 = boxB.y + (boxB.height / 2) + 10;
+    line.setAttribute('x1', `${x1}`);
+    line.setAttribute('x2', `${x2}`);
+    line.setAttribute('y1', `${y1}`);
+    line.setAttribute('y2', `${y2}`);
+    line.setAttribute('stroke', 'black');
+    line.setAttribute('stroke-width', '10');
+    line.setAttribute('marker-end', 'url(#arrowHead)');
+    return line;
+  }
+
+  static buildConvoySymbol(path: SVGAElement) {
+    // TODO this will just draw a squiggly line above the unit
     const box = path.getBBox();
     const x = box.x + (box.width / 2);
     const y = box.y + (box.height / 2) + 10;
@@ -83,10 +121,27 @@ export class SvgHelper {
   }
 
   static drawOrderOnMap(map: SVGAElement, order: Order) {
-    const svgEl = map.querySelector(`[data-name=${order.unit.territoryId}]`) as SVGAElement;
-    if (order.type === OrderType.Hold) {
-      const holdCircle = SvgHelper.buildCircle(svgEl);
-      map.getElementsByTagName('g')[0].appendChild(holdCircle);
+    const currentElement = map.querySelector(`[data-name=${order.unit.territoryId}]`) as SVGAElement;
+    const prevOrder = map.querySelector(`#${order.unit.territoryId}`);
+    if (prevOrder) {
+      prevOrder.remove();
     }
+
+    let newOrder;
+    if (order.type === OrderType.Hold) {
+      newOrder = SvgHelper.buildHoldCircle(currentElement);
+    } else if (order.type === OrderType.Move) {
+      const toElement = map.querySelector(`[data-name=${order.toTerritoryId}]`) as SVGAElement;
+      newOrder = SvgHelper.buildMoveLine(currentElement, toElement);
+    } else if (order.type === OrderType.Support) {
+      const fromElement = map.querySelector(`[data-name=${order.fromTerritoryId}]`) as SVGAElement;
+      const toElement = map.querySelector(`[data-name=${order.toTerritoryId}]`) as SVGAElement;
+      newOrder = SvgHelper.buildSupportLine(fromElement, toElement);
+    } else if (order.type === OrderType.Convoy) {
+      newOrder = SvgHelper.buildConvoySymbol(currentElement);
+    }
+
+    newOrder.id = order.unit.territoryId;
+    map.getElementsByTagName('g')[0].appendChild(newOrder);
   }
 }
